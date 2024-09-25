@@ -1,131 +1,105 @@
-part of './view/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-final List<String> categories = [
-  'Apple',
-  'Samsung',
-  'Huawei',
-  'OnePlus',
-  'Google Pixel',
-  'Xiaomi'
+import '../announcement_details/view/announcement_detail_screen.dart';
+
+final announcements = [
+  {
+    'title': 'Company Meeting',
+    'content': 'Don\'t forget our meeting tomorrow!',
+    'category': 'Meeting',
+    'created_at': '2024-09-25T12:00:00' // Example date
+  },
+  {
+    'title': 'New Policy Update',
+    'content': 'Please review the new policy document.',
+    'category': 'Policy',
+    'created_at': '2024-09-24T10:00:00' // Example date
+  },
+  {
+    'title': 'Company Meeting',
+    'content': 'Don\'t forget our meeting tomorrow!',
+    'category': 'Meeting',
+    'created_at': '2024-09-25T12:00:00' // Example date
+  },
+  {
+    'title': 'Company Meeting',
+    'content': 'Don\'t forget our meeting tomorrow!',
+    'category': 'Meeting',
+    'created_at': '2024-09-25T12:00:00' // Example date
+  },
+  {
+    'title': 'Company Meeting',
+    'content': 'Don\'t forget our meeting tomorrow!',
+    'category': 'Meeting',
+    'created_at': '2024-09-25T12:00:00' // Example date
+  },
+  {
+    'title': 'Company Meeting',
+    'content': 'Don\'t forget our meeting tomorrow!',
+    'category': 'Meeting',
+    'created_at': '2024-09-25T12:00:00' // Example date
+  },
 ];
 
-Column categoriesSection(BuildContext context) {
-  // List of categories
+final today = DateTime.now();
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const SizedBox(
-        height: 20,
-      ),
-      const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Text(
-          'Phone Brands',
-          style: TextStyle(
-            fontSize: 22,
-          ),
-        ),
-      ),
-      SizedBox(
-        height: 150,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: Icon(
-                          Icons.phone_android,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      categories[index],
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    ],
-  );
+String formatDate(String dateString) {
+  final DateTime date = DateTime.parse(dateString);
+  if (date.year == today.year &&
+      date.month == today.month &&
+      date.day == today.day) {
+    return 'Today';
+  }
+  return DateFormat('dd/MM/yyyy').format(date);
 }
 
-Widget phoneListSection(BuildContext context) {
-  final List<Map<String, String>> phones = [
-    {'brand': 'iPhone', 'model': 'iPhone 16'},
-    {'brand': 'iPhone', 'model': 'iPhone XR'},
-    {'brand': 'Samsung', 'model': 'Samsung Galaxy S24'},
-    {'brand': 'Samsung', 'model': 'Samsung Galaxy Note 21'},
-    {'brand': 'Huawei', 'model': 'Huawei P50'},
-    {'brand': 'OnePlus', 'model': 'OnePlus 9 Pro'},
-  ];
-
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text(
-            'Phone List',
-            style: TextStyle(
-              fontSize: 22,
+ListView announcementsList(BuildContext context) {
+  return ListView.separated(
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: announcements.length,
+    separatorBuilder: (context, index) {
+      return const Divider(
+        color: Colors.grey,
+        thickness: 1,
+        // height: 20,
+      );
+    },
+    itemBuilder: (context, index) {
+      final announcement = announcements[index];
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: ListTile(
+            leading: const Icon(
+              Icons.announcement,
+              color: Colors.blue,
+              size: 30,
             ),
+            title: Text(
+              announcement['title']!,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(formatDate(announcement['created_at']!)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AnnouncementDetailScreen(announcement: announcement),
+                ),
+              );
+            },
           ),
         ),
-        GridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: List.generate(6, (index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    const Icon(
-                      Icons.phone_android,
-                    ),
-                    Text(
-                      categories[index],
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-        ),
-      ],
-    ),
+      );
+    },
   );
 }
