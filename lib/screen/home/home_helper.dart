@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../announcement_details/view/announcement_detail_screen.dart';
+import '../announcement/view/announcement_detail_screen.dart';
 
 final announcements = [
   {
@@ -92,8 +92,7 @@ ListView announcementsList(BuildContext context) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AnnouncementDetailScreen(announcement: announcement),
+                  builder: (context) => AnnouncementDetailScreen(),
                 ),
               );
             },
