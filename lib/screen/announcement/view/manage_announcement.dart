@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_comparison_app/widgets/app_bar.dart';
 
 class ManageAnnouncementsScreen extends StatelessWidget {
   const ManageAnnouncementsScreen({super.key});
@@ -6,15 +7,12 @@ class ManageAnnouncementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Announcements'),
-      ),
+      appBar: const BaseAppBar(title: 'Manage Announcements'),
       body: ListView.builder(
-        itemCount: 10, // Replace with dynamic count of announcements
+        itemCount: 10,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(
-                'Announcement $index'), // Replace with actual announcement title
+            title: Text('Announcement $index'),
             subtitle: Text('Description for Announcement $index'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
