@@ -60,13 +60,6 @@ class DatabaseConfig {
   ''');
   }
 
-  // Insert a new announcement into the database
-  Future<int> insertAnnouncement(Announcement announcement) async {
-    final db = await database;
-    return await db.insert('announcements', announcement.toMap());
-  }
-
-  // Retrieve all announcements from the database
   Future<List<Announcement>> getAnnouncements() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('announcements');
@@ -74,6 +67,21 @@ class DatabaseConfig {
     return List.generate(maps.length, (i) {
       return Announcement.fromMap(maps[i]);
     });
+  }
+
+  Future<int> insertAnnouncement(Announcement announcement) async {
+    final db = await database;
+    return await db.insert('announcements', announcement.toMap());
+  }
+
+  Future<void> updateAnnouncement(Announcement announcement) async {
+    final db = await database;
+    await db.update(
+      'announcements',
+      announcement.toMap(),
+      where: 'id = ?',
+      whereArgs: [announcement.id],
+    );
   }
 
   Future<int> removeAnnouncement(int id) async {

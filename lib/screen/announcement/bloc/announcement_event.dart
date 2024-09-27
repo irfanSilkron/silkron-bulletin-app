@@ -17,12 +17,12 @@ class AddAnnouncement extends AnnouncementEvent {
 }
 
 class UpdateAnnouncement extends AnnouncementEvent {
-  final Announcement announcement;
+  final Announcement updatedAnnouncement;
 
-  UpdateAnnouncement(this.announcement);
+  UpdateAnnouncement(this.updatedAnnouncement);
 
   @override
-  List<Object?> get props => [announcement];
+  List<Object?> get props => [updatedAnnouncement];
 }
 
 class DeleteAnnouncement extends AnnouncementEvent {

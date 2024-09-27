@@ -2,16 +2,15 @@ class Announcement {
   final int? id;
   final String title;
   final String description;
-  final String category;
+  final String? category;
 
   Announcement({
     this.id,
     required this.title,
     required this.description,
-    required this.category,
+    this.category,
   });
 
-  // Convert Announcement object into a Map object for saving in DB
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -21,7 +20,6 @@ class Announcement {
     };
   }
 
-  // Convert Map object back into an Announcement object for retrieving from DB
   factory Announcement.fromMap(Map<String, dynamic> map) {
     return Announcement(
       id: map['id'],

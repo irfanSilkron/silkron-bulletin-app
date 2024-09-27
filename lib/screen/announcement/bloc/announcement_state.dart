@@ -27,10 +27,10 @@ class AnnouncementError extends AnnouncementState {
   List<Object?> get props => [message];
 }
 
-class AnnouncementDeleted extends AnnouncementState {
+class DeleteAnnouncementSuccess extends AnnouncementState {
   final List<Announcement> announcements;
 
-  AnnouncementDeleted(this.announcements);
+  DeleteAnnouncementSuccess(this.announcements);
 
   @override
   List<Object?> get props => [announcements];

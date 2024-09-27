@@ -28,11 +28,18 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       emit(AnnouncementLoaded(announcements));
     });
 
+    on<UpdateAnnouncement>((event, emit) async {
+      await _databaseConfig.updateAnnouncement(event.updatedAnnouncement);
+
+      final announcements = await _databaseConfig.getAnnouncements();
+      emit(AnnouncementLoaded(announcements));
+    });
+
     on<DeleteAnnouncement>((event, emit) async {
       await _databaseConfig.removeAnnouncement(event.id);
 
       final announcements = await _databaseConfig.getAnnouncements();
-      emit(AnnouncementDeleted(announcements));
+      emit(DeleteAnnouncementSuccess(announcements));
     });
   }
 }

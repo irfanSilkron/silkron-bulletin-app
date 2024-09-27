@@ -13,6 +13,7 @@ class AnnouncementsList extends StatefulWidget {
 
 class _AnnouncementsListState extends State<AnnouncementsList> {
   late final AnnouncementBloc _announcementBloc;
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +26,8 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
     return BlocConsumer<AnnouncementBloc, AnnouncementState>(
       listener: (context, state) async {
         if (state is AnnouncementError) {
-          showSnackbar(context: context, message: "error");
+          showSnackbar(
+              context: context, message: "Error loading announcements");
         }
       },
       builder: (context, state) {
@@ -36,50 +38,88 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
         } else if (state is AnnouncementLoaded) {
           if (state.announcements.isEmpty) {
             return const Center(
-              child: Text("No Announcements Available"),
+              child: Text(
+                "No Announcements Available",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             );
           }
 
           return ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(16.0),
             shrinkWrap: true,
             itemCount: state.announcements.length,
             separatorBuilder: (context, index) {
-              return const Divider(
-                color: Colors.grey,
-                thickness: 1,
-              );
+              return const SizedBox(height: 16);
             },
             itemBuilder: (context, index) {
               final announcement = state.announcements[index];
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(20),
+              return Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.announcement,
-                      color: Colors.blue,
-                      size: 30,
-                    ),
-                    title: Text(
-                      announcement.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(announcement.description),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AnnouncementDetailScreen(),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(15),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AnnouncementDetailScreen(
+                          announcement: announcement,
                         ),
-                      );
-                    },
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade100,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.announcement,
+                            color: Colors.blue,
+                            size: 30,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                announcement.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                announcement.description,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -87,7 +127,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
           );
         } else {
           return const Center(
-            child: Text("Failed To fetch Announcements!"),
+            child: Text("Failed to fetch Announcements!"),
           );
         }
       },
