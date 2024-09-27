@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
-
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_category_dropdown.dart';
 import '../../../widgets/app_text_field.dart';
@@ -53,15 +54,45 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
               ),
               const SizedBox(height: 30),
               // Create Button
-              AppButton(
-                onPressed: () {
-                  final newAnnouncement = Announcement(
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    category: selectedCategory ?? 'General',
-                  );
+              BlocConsumer<AnnouncementBloc, AnnouncementState>(
+                listener: (context, state) {
+                  if (state is AnnouncementLoaded) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Announcement Added')),
+                    );
+                    Navigator.of(context).pop();
+                  } else if (state is AnnouncementError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Error")),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  return AppButton(
+                    onPressed: () {
+                      if (selectedCategory != null &&
+                          titleController.text.isNotEmpty &&
+                          descriptionController.text.isNotEmpty) {
+                        final newAnnouncement = Announcement(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          category: selectedCategory!,
+                        );
 
-                  print(newAnnouncement.toMap());
+                        context.read<AnnouncementBloc>().add(
+                              AddAnnouncement(newAnnouncement),
+                            );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Please fill all fields')),
+                        );
+                      }
+                    },
+                    label: state is AnnouncementLoading
+                        ? 'Adding...'
+                        : 'Create Announcement',
+                  );
                 },
               ),
             ],
@@ -71,5 +102,3 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
     );
   }
 }
-
-// Custom Create Button Widget

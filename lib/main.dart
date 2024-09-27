@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_comparison_app/service/database/table/database_config.dart';
 import 'config/router/app_router.dart';
 
-void main() {
-  runApp(const MeetingRoomSchedulerApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseConfig().initDatabase();
+  runApp(const SilkronBulletinApp());
 }
 
-class MeetingRoomSchedulerApp extends StatelessWidget {
-  const MeetingRoomSchedulerApp({super.key});
+class SilkronBulletinApp extends StatelessWidget {
+  const SilkronBulletinApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Silkron Bulletin App',
-      navigatorKey: AppRouter.navigatorKey,
-      onGenerateRoute: AppRouter.generatePageList,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => AnnouncementBloc(),
+      child: MaterialApp(
+        home: const HomeScreen(),
+        navigatorKey: AppRouter.navigatorKey,
+        onGenerateRoute: AppRouter.generatePageList,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
       ),
-      home: const HomeScreen(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

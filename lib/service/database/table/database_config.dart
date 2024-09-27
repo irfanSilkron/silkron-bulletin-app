@@ -1,27 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../../screen/announcement/model/announcement_model.dart';
 import 'database_exception.dart';
 
 class DatabaseConfig {
   static final DatabaseConfig _singleton = DatabaseConfig._internal();
   Database? _db;
 
+  DatabaseConfig._internal();
 
   factory DatabaseConfig() {
     return _singleton;
   }
 
-  DatabaseConfig._internal();
-
-
-  static const String _dbName = "phone_comparison.db";
+  static const String _dbName = "silkronBulletin.db";
   static const int _dbVersion = 1;
 
-  Future<Database> getDb() async {
-
+  Future<Database> get database async {
     if (_db != null) {
       return _db!;
     }
@@ -29,7 +26,6 @@ class DatabaseConfig {
     _db ?? await initDatabase();
     return _db!;
   }
-
 
   Future<void> initDatabase() async {
     try {
@@ -51,15 +47,41 @@ class DatabaseConfig {
     }
   }
 
-   void _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE phones (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        brand TEXT,
-        model TEXT,
-        price REAL
-      )
-    ''');
+    CREATE TABLE announcements(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      description TEXT,
+      category TEXT,
+      created TEXT,  
+      updated TEXT   
+    )
+  ''');
   }
 
+  // Insert a new announcement into the database
+  Future<int> insertAnnouncement(Announcement announcement) async {
+    final db = await database;
+    return await db.insert('announcements', announcement.toMap());
+  }
+
+  // Retrieve all announcements from the database
+  Future<List<Announcement>> getAnnouncements() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('announcements');
+
+    return List.generate(maps.length, (i) {
+      return Announcement.fromMap(maps[i]);
+    });
+  }
+
+  Future<int> removeAnnouncement(int id) async {
+    final db = await database;
+    return await db.delete(
+      'announcements',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }

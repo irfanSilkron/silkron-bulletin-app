@@ -4,10 +4,14 @@ import '../widget/announcement_list.dart';
 import '../widget/home_banner.dart';
 import '../widget/home_drawer.dart';
 
-// HomeScreen widget
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +21,12 @@ class HomeScreen extends StatelessWidget {
       drawer: const HomeDrawer(),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             HomeBanner(),
+            SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(8.0),
               child: AnnouncementsList(),
             ),
           ],
