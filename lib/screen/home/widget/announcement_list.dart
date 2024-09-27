@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
-import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 import '../../../widgets/show_snackbar.dart';
 import '../../announcement/view/announcement_detail_screen.dart';
 
@@ -14,12 +13,11 @@ class AnnouncementsList extends StatefulWidget {
 
 class _AnnouncementsListState extends State<AnnouncementsList> {
   late final AnnouncementBloc _announcementBloc;
-
   @override
   void initState() {
     super.initState();
     _announcementBloc = BlocProvider.of<AnnouncementBloc>(context);
-    _announcementBloc.add(LoadAnnouncements()); // Load announcements on init
+    _announcementBloc.add(LoadAnnouncements());
   }
 
   @override
@@ -73,6 +71,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    subtitle: Text(announcement.description),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -88,7 +87,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
           );
         } else {
           return const Center(
-            child: Text("Something went wrong!"),
+            child: Text("Failed To fetch Announcements!"),
           );
         }
       },

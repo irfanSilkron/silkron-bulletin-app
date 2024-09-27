@@ -13,7 +13,7 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
     on<LoadAnnouncements>((event, emit) async {
       emit(AnnouncementLoading());
       try {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 2));
         final announcements = await _databaseConfig.getAnnouncements();
         emit(AnnouncementLoaded(announcements));
       } catch (e) {
@@ -30,9 +30,9 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
 
     on<DeleteAnnouncement>((event, emit) async {
       await _databaseConfig.removeAnnouncement(event.id);
-      // Re-load announcements after deleting
+
       final announcements = await _databaseConfig.getAnnouncements();
-      emit(AnnouncementLoaded(announcements));
+      emit(AnnouncementDeleted(announcements));
     });
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
+import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_category_dropdown.dart';
@@ -15,9 +17,16 @@ class AddAnnouncementScreen extends StatefulWidget {
 }
 
 class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
+  late final AnnouncementBloc _announcementBloc;
   String? selectedCategory;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    _announcementBloc = BlocProvider.of<AnnouncementBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +69,12 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Announcement Added')),
                     );
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ));
                   } else if (state is AnnouncementError) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Error")),
+                      const SnackBar(content: Text("Error")),
                     );
                   }
                 },
@@ -79,9 +90,9 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                           category: selectedCategory!,
                         );
 
-                        context.read<AnnouncementBloc>().add(
-                              AddAnnouncement(newAnnouncement),
-                            );
+                        _announcementBloc.add(
+                          AddAnnouncement(newAnnouncement),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
