@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/widgets/app_button.dart';
+import 'package:phone_comparison_app/widgets/app_category_dropdown.dart';
+import 'package:phone_comparison_app/widgets/app_text_field.dart';
 import 'package:phone_comparison_app/widgets/show_snackbar.dart';
-import '../../../widgets/app_button.dart';
-import '../../../widgets/app_category_dropdown.dart';
-import '../../../widgets/app_text_field.dart';
 
 class AddAnnouncementScreen extends StatefulWidget {
   const AddAnnouncementScreen({super.key});

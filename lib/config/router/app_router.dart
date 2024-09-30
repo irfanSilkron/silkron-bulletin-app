@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:phone_comparison_app/screen/announcement/view/add_announcement.dart';
-
-import '../../screen/announcement/view/manage_announcement.dart';
-import '../../screen/home/view/home_screen.dart';
-import '../../utils/constant/path_route.dart';
+import 'package:phone_comparison_app/screen/announcement/view/manage_announcement.dart';
+import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =

@@ -4,7 +4,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:phone_comparison_app/service/database/table/announcement_table.dart';
 import 'package:sqflite/sqflite.dart';
-import '../../../screen/announcement/model/announcement_model.dart';
 import 'database_exception.dart';
 
 class DatabaseConfig {

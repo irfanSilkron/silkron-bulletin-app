@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
-import '../../../widgets/show_snackbar.dart';
-import '../../announcement/view/announcement_detail_screen.dart';
+import 'package:phone_comparison_app/screen/announcement/view/announcement_detail_screen.dart';
+import 'package:phone_comparison_app/widgets/show_snackbar.dart';
 
 class AnnouncementsList extends StatefulWidget {
   const AnnouncementsList({super.key});

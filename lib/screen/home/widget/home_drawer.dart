@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../utils/constant/path_route.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_screen.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
-
-import '../../../config/theme/app_pallete.dart';
-import '../../../widgets/show_snackbar.dart';
+import 'package:phone_comparison_app/widgets/show_snackbar.dart';
 
 class ManageAnnouncementsScreen extends StatefulWidget {
   const ManageAnnouncementsScreen({super.key});

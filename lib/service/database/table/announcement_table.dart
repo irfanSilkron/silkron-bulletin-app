@@ -1,7 +1,6 @@
 import 'package:logger/logger.dart';
+import 'package:phone_comparison_app/service/database/table.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../table.dart';
 
 class AnnouncementTable extends Table {
   final String titleCol;

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
-
-import '../../../widgets/app_category_dropdown.dart';
+import 'package:phone_comparison_app/widgets/app_category_dropdown.dart';
 
 class EditAnnouncementScreen extends StatefulWidget {
   final Announcement announcement;
