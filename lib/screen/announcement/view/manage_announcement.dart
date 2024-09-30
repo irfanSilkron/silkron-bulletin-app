@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_screen.dart';
-import 'package:phone_comparison_app/service/database/table/database_config.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 
 class ManageAnnouncementsScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class ManageAnnouncementsScreen extends StatefulWidget {
 }
 
 class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
-  final DatabaseConfig _databaseConfig = DatabaseConfig();
   late final AnnouncementBloc _announcementBloc;
 
   @override
@@ -121,7 +119,7 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
                               _showDeleteConfirmationDialog(
-                                  context, announcement.id!);
+                                  context, announcement.announcmentId!);
                             },
                           ),
                         ],
@@ -176,8 +174,8 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-                onPrimary: Colors.white,
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.red,
               ),
               child: const Text(
                 "Delete",

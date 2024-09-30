@@ -1,45 +1,84 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
-import 'package:phone_comparison_app/service/database/table/database_config.dart';
 
 part 'announcement_event.dart';
 part 'announcement_state.dart';
 
 class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
-  final DatabaseConfig _databaseConfig = DatabaseConfig();
-
   AnnouncementBloc() : super(AnnouncementInitial()) {
-    on<LoadAnnouncements>((event, emit) async {
-      emit(AnnouncementLoading());
-      try {
-        await Future.delayed(const Duration(seconds: 2));
-        final announcements = await _databaseConfig.getAnnouncements();
-        emit(AnnouncementLoaded(announcements));
-      } catch (e) {
-        emit(AnnouncementError("Failed to load Announcements"));
+    on<LoadAnnouncements>(_onLoadAnnouncements);
+    on<AddAnnouncement>(_onAddAnnouncements);
+    on<UpdateAnnouncement>(_onUpdateAnnouncement);
+    on<DeleteAnnouncement>(_onDeleteAnnouncement);
+  }
+
+  Future<void> _onLoadAnnouncements(
+      LoadAnnouncements event, Emitter<AnnouncementState> emit) async {
+    emit(AnnouncementLoading());
+    try {
+      final allAnnouncements = await Announcement.getAnnouncements();
+      await Future.delayed(const Duration(seconds: 2));
+      emit(AnnouncementLoaded(allAnnouncements));
+    } catch (e) {
+      emit(AnnouncementError("Failed to load Announcements"));
+    }
+  }
+
+  Future<void> _onAddAnnouncements(
+      AddAnnouncement event, Emitter<AnnouncementState> emit) async {
+    try {
+      final Announcement? announcementData =
+          await Announcement.addNewAnnouncement(
+        title: event.title,
+        description: event.description,
+        category: event.category,
+      );
+
+      if (announcementData != null) {
+        final allAnnouncements = await Announcement.getAnnouncements();
+        emit(AnnouncementLoaded(allAnnouncements));
+      } else {
+        emit(AnnouncementError("Failed to add announcement"));
       }
-    });
+    } catch (e) {
+      emit(AnnouncementError("Unexpected error occurred: $e"));
+    }
+  }
 
-    on<AddAnnouncement>((event, emit) async {
-      await _databaseConfig.insertAnnouncement(event.announcement);
+  Future<void> _onUpdateAnnouncement(
+      UpdateAnnouncement event, Emitter<AnnouncementState> emit) async {
+    final announcementToUpdate = Announcement(
+      announcmentId: event.announcmentId,
+      title: event.title,
+      description: event.description,
+    );
 
-      final announcements = await _databaseConfig.getAnnouncements();
-      emit(AnnouncementLoaded(announcements));
-    });
+    final isSuccess = await announcementToUpdate.updateAnnouncement();
 
-    on<UpdateAnnouncement>((event, emit) async {
-      await _databaseConfig.updateAnnouncement(event.updatedAnnouncement);
+    if (isSuccess) {
+      final allAnnouncements = await Announcement.getAnnouncements();
+      emit(AnnouncementLoaded(allAnnouncements));
+    } else {
+      emit(AnnouncementError("Failed to update announcement"));
+    }
+  }
 
-      final announcements = await _databaseConfig.getAnnouncements();
-      emit(AnnouncementLoaded(announcements));
-    });
+  Future<void> _onDeleteAnnouncement(
+      DeleteAnnouncement event, Emitter<AnnouncementState> emit) async {
+    emit(AnnouncementLoading());
+    try {
+      final success =
+          await Announcement.deleteAnnouncement(event.announcmentId);
 
-    on<DeleteAnnouncement>((event, emit) async {
-      await _databaseConfig.removeAnnouncement(event.id);
-
-      final announcements = await _databaseConfig.getAnnouncements();
-      emit(DeleteAnnouncementSuccess(announcements));
-    });
+      if (success) {
+        final allAnnouncements = await Announcement.getAnnouncements();
+        emit(AnnouncementLoaded(allAnnouncements));
+      } else {
+        emit(AnnouncementError("Failed to delete announcement"));
+      }
+    } catch (e) {
+      emit(AnnouncementError("Unexpected error occurred: $e"));
+    }
   }
 }

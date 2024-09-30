@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
-import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
-import 'package:phone_comparison_app/utils/constant/path_route.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_category_dropdown.dart';
@@ -19,8 +17,8 @@ class AddAnnouncementScreen extends StatefulWidget {
 class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
   late final AnnouncementBloc _announcementBloc;
   String? selectedCategory;
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -39,20 +37,17 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              // Title TextField
               AppTextField(
                 label: 'Announcement Title',
-                controller: titleController,
+                controller: _titleController,
               ),
               const SizedBox(height: 20),
-              // Description TextField
               AppTextField(
                 label: 'Announcement Description',
                 maxLines: 5,
-                controller: descriptionController,
+                controller: _descriptionController,
               ),
               const SizedBox(height: 30),
-              // Category Dropdown
               CategoryDropdown(
                 selectedCategory: selectedCategory,
                 onChanged: (value) {
@@ -82,16 +77,14 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                   return AppButton(
                     onPressed: () {
                       if (selectedCategory != null &&
-                          titleController.text.isNotEmpty &&
-                          descriptionController.text.isNotEmpty) {
-                        final newAnnouncement = Announcement(
-                          title: titleController.text,
-                          description: descriptionController.text,
-                          category: selectedCategory!,
-                        );
-
+                          _titleController.text.isNotEmpty &&
+                          _descriptionController.text.isNotEmpty) {
                         _announcementBloc.add(
-                          AddAnnouncement(newAnnouncement),
+                          AddAnnouncement(
+                            title: _titleController.text.trim(),
+                            description: _descriptionController.text.trim(),
+                            category: selectedCategory!,
+                          ),
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -100,9 +93,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                         );
                       }
                     },
-                    label: state is AnnouncementLoading
-                        ? 'Adding...'
-                        : 'Create Announcement',
                   );
                 },
               ),

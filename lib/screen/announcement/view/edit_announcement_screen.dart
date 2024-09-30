@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
@@ -66,16 +67,18 @@ class _EditAnnouncementScreenState extends State<EditAnnouncementScreen> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
 
-                    // Create a new Announcement with updated values
                     final updatedAnnouncement = Announcement(
-                      id: widget.announcement.id,
+                      announcmentId: widget.announcement.announcmentId,
                       title: _title,
                       description: _description,
                     );
 
-                    // Dispatch the update event to the bloc
                     BlocProvider.of<AnnouncementBloc>(context)
-                        .add(UpdateAnnouncement(updatedAnnouncement));
+                        .add(UpdateAnnouncement(
+                      announcmentId: updatedAnnouncement.announcmentId!,
+                      title: _title,
+                      description: _description,
+                    ));
 
                     Navigator.pop(context);
                   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phone_comparison_app/service/database/table/database_config.dart';
+import 'package:phone_comparison_app/service/database/database_config.dart';
 import 'package:phone_comparison_app/utils/simple_bloc_delegate.dart';
 import 'config/router/app_router.dart';
 

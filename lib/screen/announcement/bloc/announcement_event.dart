@@ -8,28 +8,40 @@ abstract class AnnouncementEvent extends Equatable {
 class LoadAnnouncements extends AnnouncementEvent {}
 
 class AddAnnouncement extends AnnouncementEvent {
-  final Announcement announcement;
+  final String title;
+  final String description;
+  final String category;
 
-  AddAnnouncement(this.announcement);
+  AddAnnouncement({
+    required this.title,
+    required this.description,
+    required this.category,
+  });
 
   @override
-  List<Object?> get props => [announcement];
+  List<Object?> get props => [title, description, category];
 }
 
 class UpdateAnnouncement extends AnnouncementEvent {
-  final Announcement updatedAnnouncement;
+  final int announcmentId;
+  final String title;
+  final String description;
 
-  UpdateAnnouncement(this.updatedAnnouncement);
+  UpdateAnnouncement({
+    required this.announcmentId,
+    required this.title,
+    required this.description,
+  });
 
   @override
-  List<Object?> get props => [updatedAnnouncement];
+  List<Object?> get props => [title, description];
 }
 
 class DeleteAnnouncement extends AnnouncementEvent {
-  final int id;
+  final int announcmentId;
 
-  DeleteAnnouncement(this.id);
+  DeleteAnnouncement(this.announcmentId);
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [announcmentId];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import '../../../widgets/show_snackbar.dart';
 import '../../announcement/view/announcement_detail_screen.dart';
@@ -50,11 +51,11 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
 
           return ListView.separated(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(10.0),
             shrinkWrap: true,
             itemCount: state.announcements.length,
             separatorBuilder: (context, index) {
-              return const SizedBox(height: 16);
+              return const SizedBox(height: 10);
             },
             itemBuilder: (context, index) {
               final announcement = state.announcements[index];
@@ -83,12 +84,12 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade100,
+                            color: AppPallete.shadeBlueColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
                             Icons.announcement,
-                            color: Colors.blue,
+                            color: AppPallete.blueColor,
                             size: 30,
                           ),
                         ),
@@ -102,7 +103,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                                  color: AppPallete.blackColor,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -112,7 +113,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey.shade600,
+                                  color: AppPallete.greyColor,
                                 ),
                               ),
                             ],

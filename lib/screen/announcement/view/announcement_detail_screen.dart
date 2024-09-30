@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 
@@ -19,48 +20,45 @@ class AnnouncementDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Announcement Title
             Text(
               announcement.title,
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppPallete.blackColor,
               ),
             ),
             const SizedBox(height: 16),
 
-            // Decorative divider
+            //Divider
             Container(
               height: 4,
               width: 50,
-              color: Colors.blue,
+              color: AppPallete.blueColor,
             ),
 
             const SizedBox(height: 20),
 
-            // Announcement Description
             Text(
               announcement.description,
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.grey.shade700,
-                height: 1.5, // line height for better readability
+                color: AppPallete.greyColor,
+                height: 1.5,
               ),
             ),
 
             const SizedBox(height: 20),
 
-            // Announcement Date (Optional)
             Row(
               children: [
-                const Icon(Icons.calendar_today, color: Colors.grey),
+                Icon(Icons.calendar_today, color: AppPallete.greyColor),
                 const SizedBox(width: 8),
                 Text(
-                  'Published on: ${'Today'}',
+                  'Published on: ${announcement.created}',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.grey.shade600,
+                    color: AppPallete.greyColor,
                   ),
                 ),
               ],

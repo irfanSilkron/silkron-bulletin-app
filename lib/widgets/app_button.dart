@@ -6,7 +6,6 @@ class AppButton extends StatelessWidget {
   const AppButton({
     Key? key,
     required this.onPressed,
-    required String label,
   }) : super(key: key);
 
   @override
