@@ -65,7 +65,7 @@ class AnnouncementTable extends Table {
 
       return announcementData;
     } catch (e) {
-      Logger().f("Failed to register announcement, $e");
+      Logger().f("Failed to add announcement, $e");
       if (catchErrMsg) {
         rethrow;
       }
