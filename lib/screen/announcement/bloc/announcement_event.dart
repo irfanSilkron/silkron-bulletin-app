@@ -1,5 +1,6 @@
 part of 'announcement_bloc.dart';
 
+@immutable
 abstract class AnnouncementEvent extends Equatable {
   @override
   List<Object?> get props => [];
