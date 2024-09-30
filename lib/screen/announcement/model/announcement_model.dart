@@ -4,7 +4,7 @@ class Announcement {
   final int? announcmentId;
   final String title;
   final String description;
-  final String? category;
+  final String category;
 
   final DateTime? created;
   final DateTime? updated;
@@ -16,7 +16,7 @@ class Announcement {
     this.announcmentId,
     required this.title,
     required this.description,
-    this.category,
+    required this.category,
     this.created,
     this.updated,
     this.remark,

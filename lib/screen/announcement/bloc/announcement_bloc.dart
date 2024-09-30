@@ -52,12 +52,17 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
       announcmentId: event.announcmentId,
       title: event.title,
       description: event.description,
+      category: event.category,
     );
 
     final isSuccess = await announcementToUpdate.updateAnnouncement();
 
     if (isSuccess) {
       final allAnnouncements = await Announcement.getAnnouncements();
+      emit(UpdateAnnouncementSuccess(allAnnouncements));
+
+      await Future.delayed(const Duration(seconds: 2));
+
       emit(AnnouncementLoaded(allAnnouncements));
     } else {
       emit(AnnouncementError("Failed to update announcement"));
@@ -73,6 +78,11 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
 
       if (success) {
         final allAnnouncements = await Announcement.getAnnouncements();
+
+        emit(DeleteAnnouncementSuccess(allAnnouncements));
+
+        await Future.delayed(const Duration(seconds: 2));
+
         emit(AnnouncementLoaded(allAnnouncements));
       } else {
         emit(AnnouncementError("Failed to delete announcement"));

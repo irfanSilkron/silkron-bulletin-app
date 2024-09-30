@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 
+import '../../../widgets/app_category_dropdown.dart';
+
 class EditAnnouncementScreen extends StatefulWidget {
   final Announcement announcement;
-
   const EditAnnouncementScreen({super.key, required this.announcement});
 
   @override
@@ -15,13 +16,19 @@ class EditAnnouncementScreen extends StatefulWidget {
 
 class _EditAnnouncementScreenState extends State<EditAnnouncementScreen> {
   final _formKey = GlobalKey<FormState>();
+  late final AnnouncementBloc _announcementBloc;
   late String _title;
   late String _description;
+  late String _category;
+  String? selectedCategory;
 
   @override
   void initState() {
+    _announcementBloc = BlocProvider.of<AnnouncementBloc>(context);
     _title = widget.announcement.title;
     _description = widget.announcement.description;
+    _category = widget.announcement.category;
+    selectedCategory = _category;
     super.initState();
   }
 
@@ -61,6 +68,16 @@ class _EditAnnouncementScreenState extends State<EditAnnouncementScreen> {
                   _description = value!;
                 },
               ),
+              const SizedBox(height: 30),
+              CategoryDropdown(
+                selectedCategory: selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    selectedCategory = value;
+                    _category = value ?? _category;
+                  });
+                },
+              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
@@ -71,13 +88,14 @@ class _EditAnnouncementScreenState extends State<EditAnnouncementScreen> {
                       announcmentId: widget.announcement.announcmentId,
                       title: _title,
                       description: _description,
+                      category: _category,
                     );
 
-                    BlocProvider.of<AnnouncementBloc>(context)
-                        .add(UpdateAnnouncement(
+                    _announcementBloc.add(UpdateAnnouncement(
                       announcmentId: updatedAnnouncement.announcmentId!,
                       title: _title,
                       description: _description,
+                      category: _category,
                     ));
 
                     Navigator.pop(context);

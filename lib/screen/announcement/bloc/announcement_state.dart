@@ -35,3 +35,12 @@ class DeleteAnnouncementSuccess extends AnnouncementState {
   @override
   List<Object?> get props => [announcements];
 }
+
+class UpdateAnnouncementSuccess extends AnnouncementState {
+  final List<Announcement> announcements;
+
+  UpdateAnnouncementSuccess(this.announcements);
+
+  @override
+  List<Object?> get props => [announcements];
+}

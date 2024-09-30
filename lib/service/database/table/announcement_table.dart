@@ -26,7 +26,7 @@ class AnnouncementTable extends Table {
         $createdCol TEXT NOT NULL,
         $updatedCol TEXT NOT NULL,
         $descriptionCol TEXT NOT NULL,
-        $categoryCol TEXT ,
+        $categoryCol TEXT NOT NULL,
         $titleCol TEXT,
         $remarkCol TEXT,
         $referenceCol TEXT,

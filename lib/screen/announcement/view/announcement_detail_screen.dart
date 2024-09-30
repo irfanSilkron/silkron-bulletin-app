@@ -21,6 +21,16 @@ class AnnouncementDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              announcement.category,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: AppPallete.blueColor,
+              ),
+            ),
+            const SizedBox(height: 5),
+
+            Text(
               announcement.title,
               style: const TextStyle(
                 fontSize: 28,

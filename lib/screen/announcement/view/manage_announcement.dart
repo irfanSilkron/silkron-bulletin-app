@@ -4,6 +4,8 @@ import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.
 import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_screen.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 
+import '../../../config/theme/app_pallete.dart';
+
 class ManageAnnouncementsScreen extends StatefulWidget {
   const ManageAnnouncementsScreen({super.key});
 
@@ -28,6 +30,14 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
       appBar: const BaseAppBar(title: 'Manage Announcements'),
       body: BlocConsumer<AnnouncementBloc, AnnouncementState>(
         listener: (context, state) {
+          if (state is UpdateAnnouncementSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Announcement Updated Successfully'),
+              ),
+            );
+          }
+
           if (state is DeleteAnnouncementSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Announcement Deleted')),
@@ -42,10 +52,11 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is AnnouncementLoaded ||
-              state is DeleteAnnouncementSuccess) {
+              state is DeleteAnnouncementSuccess ||
+              state is UpdateAnnouncementSuccess) {
             final announcements = state is AnnouncementLoaded
                 ? state.announcements
-                : (state as DeleteAnnouncementSuccess).announcements;
+                : (state as dynamic).announcements;
 
             if (announcements.isEmpty) {
               return const Center(
@@ -91,13 +102,27 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
                           color: Colors.black87,
                         ),
                       ),
-                      subtitle: Text(
-                        announcement.description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
-                          height: 1.4,
-                        ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            announcement.category,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              height: 1.4,
+                              color: AppPallete.blueColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            announcement.description,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade600,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -119,7 +144,9 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
                               _showDeleteConfirmationDialog(
-                                  context, announcement.announcmentId!);
+                                  context,
+                                  announcement.announcmentId!,
+                                  announcement.title);
                             },
                           ),
                         ],
@@ -145,7 +172,8 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
   }
 
   // Function to show delete confirmation dialog
-  void _showDeleteConfirmationDialog(BuildContext context, int announcementId) {
+  void _showDeleteConfirmationDialog(
+      BuildContext context, int announcementId, String announcementTitle) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -154,9 +182,9 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
             "Delete Announcement",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          content: const Text(
-            "Are you sure you want to delete this announcement?",
-            style: TextStyle(fontSize: 16),
+          content: Text(
+            "Are you sure you want to delete this announcement? \n\n Title : $announcementTitle",
+            style: const TextStyle(fontSize: 16),
           ),
           actions: <Widget>[
             TextButton(

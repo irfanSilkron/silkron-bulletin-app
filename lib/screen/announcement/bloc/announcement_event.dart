@@ -26,11 +26,13 @@ class UpdateAnnouncement extends AnnouncementEvent {
   final int announcmentId;
   final String title;
   final String description;
+  final String category;
 
   UpdateAnnouncement({
     required this.announcmentId,
     required this.title,
     required this.description,
+    required this.category,
   });
 
   @override

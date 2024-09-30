@@ -99,6 +99,15 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
+                                announcement.category,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppPallete.blueColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
                                 announcement.title,
                                 style: const TextStyle(
                                   fontSize: 18,
