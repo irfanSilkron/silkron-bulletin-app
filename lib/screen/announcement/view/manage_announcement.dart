@@ -5,6 +5,7 @@ import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_
 import 'package:phone_comparison_app/widgets/app_bar.dart';
 
 import '../../../config/theme/app_pallete.dart';
+import '../../../widgets/show_snackbar.dart';
 
 class ManageAnnouncementsScreen extends StatefulWidget {
   const ManageAnnouncementsScreen({super.key});
@@ -31,17 +32,12 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
       body: BlocConsumer<AnnouncementBloc, AnnouncementState>(
         listener: (context, state) {
           if (state is UpdateAnnouncementSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Announcement Updated Successfully'),
-              ),
-            );
+            showSnackbar(
+                context: context, message: 'Announcement Updated Successfully');
           }
 
           if (state is DeleteAnnouncementSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Announcement Deleted')),
-            );
+            showSnackbar(context: context, message: 'Announcement Deleted');
 
             _announcementBloc.add(LoadAnnouncements());
           }

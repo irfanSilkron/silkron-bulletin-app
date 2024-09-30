@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
 import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/widgets/show_snackbar.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_category_dropdown.dart';
 import '../../../widgets/app_text_field.dart';
@@ -61,16 +62,14 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
               BlocConsumer<AnnouncementBloc, AnnouncementState>(
                 listener: (context, state) {
                   if (state is AnnouncementLoaded) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Announcement Added')),
-                    );
+                    showSnackbar(
+                        context: context, message: 'Announcement Added');
+
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const HomeScreen(),
                     ));
                   } else if (state is AnnouncementError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Error")),
-                    );
+                    showSnackbar(context: context, message: 'Error');
                   }
                 },
                 builder: (context, state) {
@@ -87,10 +86,10 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                           ),
                         );
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Please fill all fields')),
-                        );
+                        showSnackbar(
+                            context: context,
+                            message: 'Please fill all fields',
+                            bgColor: Colors.red);
                       }
                     },
                   );
