@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_comparison_app/service/database/database_config.dart';
+import 'package:phone_comparison_app/utils/simple_bloc_delegate.dart';
+import 'config/router/app_router.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseConfig().initDatabase();
+  Bloc.observer = SimpleBlocDelegate();
+  runApp(const SilkronBulletinApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SilkronBulletinApp extends StatelessWidget {
+  const SilkronBulletinApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: const HomeScreen(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
+    return BlocProvider(
+      create: (context) => AnnouncementBloc(),
+      child: MaterialApp(
+        home: const HomeScreen(),
+        navigatorKey: AppRouter.navigatorKey,
+        onGenerateRoute: AppRouter.generatePageList,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
