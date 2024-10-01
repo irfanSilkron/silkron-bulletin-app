@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
-import 'package:phone_comparison_app/screen/announcement/view/announcement_detail_screen.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
 import 'package:phone_comparison_app/widgets/show_snackbar.dart';
 
 class AnnouncementsList extends StatefulWidget {
@@ -18,6 +18,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
   @override
   void initState() {
     super.initState();
+
     _announcementBloc = BlocProvider.of<AnnouncementBloc>(context);
     _announcementBloc.add(LoadAnnouncements());
   }
@@ -25,6 +26,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AnnouncementBloc, AnnouncementState>(
+      bloc: _announcementBloc,
       listener: (context, state) async {
         if (state is AnnouncementError) {
           showSnackbar(
@@ -67,13 +69,9 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(15),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AnnouncementDetailScreen(
-                          announcement: announcement,
-                        ),
-                      ),
+                    Navigator.of(context).pushNamed(
+                      PathRoute.announcementDetailScreen,
+                      arguments: announcement,
                     );
                   },
                   child: Padding(

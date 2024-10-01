@@ -1,27 +1,27 @@
 import 'package:phone_comparison_app/service/database/table/announcement_table.dart';
 
 class Announcement {
-  final int? announcmentId;
+  final int announcmentId;
   final String title;
   final String description;
   final String category;
 
-  final DateTime? created;
-  final DateTime? updated;
+  final DateTime created;
+  final DateTime updated;
   final String? remark;
   final String? reference;
-  final int? isDeleted;
+  final int isDeleted;
 
   Announcement({
-    this.announcmentId,
+    required this.announcmentId,
     required this.title,
     required this.description,
     required this.category,
-    this.created,
-    this.updated,
+    required this.created,
+    required this.updated,
     this.remark,
     this.reference,
-    this.isDeleted,
+    required this.isDeleted,
   });
 
   static Future<Announcement> fromDatabase(Map<String, dynamic> json) async {
@@ -45,7 +45,7 @@ class Announcement {
     required String description,
     required String category,
   }) async {
-    var result = await AnnouncementTable.addAnnouncement(
+    final result = await AnnouncementTable.addAnnouncement(
       title: title,
       description: description,
       category: category,
@@ -62,17 +62,13 @@ class Announcement {
   static Future<List<Announcement>> getAnnouncements() async {
     final AnnouncementTable announcementTable = AnnouncementTable.instance;
 
-    final List<Map<String, dynamic>> rows =
+    final List<Map<String, dynamic>> allAnnouncements =
         await announcementTable.getAllAnnouncements();
 
-    return Future.wait(rows.map((row) async => fromDatabase(row)));
+    return Future.wait(allAnnouncements.map((row) async => fromDatabase(row)));
   }
 
   Future<bool> updateAnnouncement() async {
-    if (announcmentId == null) {
-      return false;
-    }
-
     final result = await AnnouncementTable.instance.updateAnnouncementRecord(
       values: {
         'title': title,
@@ -80,7 +76,7 @@ class Announcement {
         'category': category,
         'updated': DateTime.now().toIso8601String(),
       },
-      id: announcmentId!,
+      id: announcmentId,
     );
 
     return result > 0;

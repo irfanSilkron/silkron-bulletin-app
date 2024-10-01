@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
-import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/widgets/base_app_bar.dart';
 
 class AnnouncementDetailScreen extends StatelessWidget {
   final Announcement announcement;

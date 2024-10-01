@@ -88,13 +88,13 @@ class _EditAnnouncementScreenState extends State<EditAnnouncementScreen> {
                       title: _title,
                       description: _description,
                       category: _category,
+                      created: widget.announcement.created,
+                      updated: widget.announcement.updated,
+                      isDeleted: widget.announcement.isDeleted,
                     );
 
                     _announcementBloc.add(UpdateAnnouncement(
-                      announcmentId: updatedAnnouncement.announcmentId!,
-                      title: _title,
-                      description: _description,
-                      category: _category,
+                      announcement: updatedAnnouncement,
                     ));
 
                     Navigator.pop(context);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phone_comparison_app/screen/home/widget/announcement_list.dart';
 import 'package:phone_comparison_app/screen/home/widget/home_drawer.dart';
 import 'package:phone_comparison_app/utils/constant/image_asset.dart';
-import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/widgets/base_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

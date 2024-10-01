@@ -24,20 +24,14 @@ class AddAnnouncement extends AnnouncementEvent {
 }
 
 class UpdateAnnouncement extends AnnouncementEvent {
-  final int announcmentId;
-  final String title;
-  final String description;
-  final String category;
+  final Announcement announcement;
 
   UpdateAnnouncement({
-    required this.announcmentId,
-    required this.title,
-    required this.description,
-    required this.category,
+    required this.announcement,
   });
 
   @override
-  List<Object?> get props => [title, description];
+  List<Object?> get props => [announcement];
 }
 
 class DeleteAnnouncement extends AnnouncementEvent {

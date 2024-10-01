@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
-import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
+import 'package:phone_comparison_app/widgets/base_app_bar.dart';
 import 'package:phone_comparison_app/widgets/app_button.dart';
 import 'package:phone_comparison_app/widgets/app_category_dropdown.dart';
 import 'package:phone_comparison_app/widgets/app_text_field.dart';
@@ -25,6 +26,13 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
   void initState() {
     _announcementBloc = BlocProvider.of<AnnouncementBloc>(context);
     super.initState();
+  }
+
+  @override
+  void dispose() async {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,14 +68,14 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
               const SizedBox(height: 30),
               // Create Button
               BlocConsumer<AnnouncementBloc, AnnouncementState>(
+                bloc: _announcementBloc,
                 listener: (context, state) {
                   if (state is AnnouncementLoaded) {
                     showSnackbar(
                         context: context, message: 'Announcement Added');
 
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ));
+                    Navigator.of(context)
+                        .pushReplacementNamed(PathRoute.homeScreen);
                   } else if (state is AnnouncementError) {
                     showSnackbar(context: context, message: 'Error');
                   }

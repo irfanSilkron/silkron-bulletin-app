@@ -50,17 +50,13 @@ class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
 
   Future<void> _onUpdateAnnouncement(
       UpdateAnnouncement event, Emitter<AnnouncementState> emit) async {
-    final announcementToUpdate = Announcement(
-      announcmentId: event.announcmentId,
-      title: event.title,
-      description: event.description,
-      category: event.category,
-    );
+    final announcementToUpdate = event.announcement;
 
     final isSuccess = await announcementToUpdate.updateAnnouncement();
 
     if (isSuccess) {
       final allAnnouncements = await Announcement.getAnnouncements();
+
       emit(UpdateAnnouncementSuccess(allAnnouncements));
 
       await Future.delayed(const Duration(seconds: 2));

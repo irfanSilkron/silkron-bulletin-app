@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:phone_comparison_app/screen/announcement/model/announcement_model.dart';
 import 'package:phone_comparison_app/screen/announcement/view/add_announcement.dart';
+import 'package:phone_comparison_app/screen/announcement/view/announcement_detail_screen.dart';
+import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_screen.dart';
 import 'package:phone_comparison_app/screen/announcement/view/manage_announcement.dart';
 import 'package:phone_comparison_app/screen/home/view/home_screen.dart';
 import 'package:phone_comparison_app/utils/constant/path_route.dart';
@@ -25,6 +28,20 @@ class AppRouter {
         return _generatePageRoute(
           settings,
           (context) => const ManageAnnouncementsScreen(),
+        );
+
+      case PathRoute.editAnnouncementScreen:
+        final announcement = settings.arguments as Announcement;
+        return _generatePageRoute(
+          settings,
+          (context) => EditAnnouncementScreen(announcement: announcement),
+        );
+
+      case PathRoute.announcementDetailScreen:
+        final announcement = settings.arguments as Announcement;
+        return _generatePageRoute(
+          settings,
+          (context) => AnnouncementDetailScreen(announcement: announcement),
         );
 
       default:

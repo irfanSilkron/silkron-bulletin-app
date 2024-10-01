@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_comparison_app/config/theme/app_pallete.dart';
 import 'package:phone_comparison_app/screen/announcement/bloc/announcement_bloc.dart';
-import 'package:phone_comparison_app/screen/announcement/view/edit_announcement_screen.dart';
-import 'package:phone_comparison_app/widgets/app_bar.dart';
+import 'package:phone_comparison_app/utils/constant/path_route.dart';
+import 'package:phone_comparison_app/widgets/base_app_bar.dart';
 import 'package:phone_comparison_app/widgets/show_snackbar.dart';
 
 class ManageAnnouncementsScreen extends StatefulWidget {
@@ -29,6 +29,7 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
     return Scaffold(
       appBar: const BaseAppBar(title: 'Manage Announcements'),
       body: BlocConsumer<AnnouncementBloc, AnnouncementState>(
+        bloc: _announcementBloc,
         listener: (context, state) {
           if (state is UpdateAnnouncementSuccess) {
             showSnackbar(
@@ -125,13 +126,9 @@ class _ManageAnnouncementsScreenState extends State<ManageAnnouncementsScreen> {
                           IconButton(
                             icon: const Icon(Icons.edit, color: Colors.blue),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditAnnouncementScreen(
-                                    announcement: announcement,
-                                  ),
-                                ),
+                              Navigator.of(context).pushNamed(
+                                PathRoute.editAnnouncementScreen,
+                                arguments: announcement,
                               );
                             },
                           ),

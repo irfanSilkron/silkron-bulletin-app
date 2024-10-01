@@ -35,11 +35,13 @@ class HomeDrawer extends StatelessWidget {
   }
 
   // Helper method for Drawer items
-  ListTile _buildDrawerItem(BuildContext context,
-      {required IconData icon,
-      required String title,
-      String? route,
-      VoidCallback? onTap}) {
+  ListTile _buildDrawerItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    String? route,
+    VoidCallback? onTap,
+  }) {
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
